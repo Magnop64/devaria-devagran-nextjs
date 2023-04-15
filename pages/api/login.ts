@@ -1,6 +1,8 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
+import conectar_bd from '@/middlewares/conectar-bd';
+import type { respostaPadraoMsg } from '@/types/respostaPadraoMsg';
 
-const login = (req: NextApiRequest, res: NextApiResponse) => {
+const login = (req: NextApiRequest, res: NextApiResponse<respostaPadraoMsg>) => {
     try{
         if(req.method == 'POST'){
             const {login, senha} = req.body;
@@ -17,4 +19,4 @@ const login = (req: NextApiRequest, res: NextApiResponse) => {
     }
 }
 
-export default login;
+export default conectar_bd(login);
