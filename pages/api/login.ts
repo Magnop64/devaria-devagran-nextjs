@@ -1,16 +1,19 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
 import conectar_bd from '@/middlewares/conectar-bd';
 import type { respostaPadraoMsg } from '@/types/respostaPadraoMsg';
+import { modeloUsuario } from '@/models/modeloUsuario';
+import md5 from 'md5';
 
-const login = (req: NextApiRequest, res: NextApiResponse<respostaPadraoMsg>) => {
+const login = async(req: NextApiRequest, res: NextApiResponse<respostaPadraoMsg>) => {
     try{
         if(req.method == 'POST'){
-            const {login, senha} = req.body;
-            if(
-                login == 'admin@admin.com' &&
-                senha == 'senha123'
-            ){
-                return res.status(200).json({msg: 'Usuario logado com sucesso'});
+            const {email, senha} = req.body;
+            
+            const usuarioLogar = await modeloUsuario.find({email: email, senha: md5(senha)});
+
+            if(usuarioLogar && usuarioLogar.length > 0){
+                const usuarioLogado = usuarioLogar[0];
+                return res.status(200).json({msg: `Usuario ${usuarioLogado.nome} logado com sucesso`});
             }
             return res.status(401).json({msg: 'Usuario ou senha informados não é valido...'});
         }
