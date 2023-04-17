@@ -6,9 +6,11 @@ const login = (req: NextApiRequest, res: NextApiResponse<respostaPadraoMsg>) => 
     try{
         if(req.method == 'POST'){
             const {login, senha} = req.body;
-            if(login == 'admin@admin.com' &&
-               senha == 'senha123'){
-                return res.status(200).json({msg: 'Usuario logado com sucesso'})
+            if(
+                login == 'admin@admin.com' &&
+                senha == 'senha123'
+            ){
+                return res.status(200).json({msg: 'Usuario logado com sucesso'});
             }
             return res.status(401).json({msg: 'Usuario ou senha informados não é valido...'});
         }
