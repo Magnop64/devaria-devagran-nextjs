@@ -3,9 +3,15 @@ import conectar_bd from '@/middlewares/conectar-bd';
 import type { respostaPadraoMsg } from '@/types/respostaPadraoMsg';
 import { modeloUsuario } from '@/models/modeloUsuario';
 import md5 from 'md5';
+import jwt from 'jsonwebtoken';
 
-const login = async(req: NextApiRequest, res: NextApiResponse<respostaPadraoMsg>) => {
+const login = async(req: NextApiRequest, res: NextApiResponse<respostaPadraoMsg | any>) => {
     try{
+        const {KEY_JWT} = process.env;
+        if(!KEY_JWT){
+            return res.status(500).json({erro: 'Chave de acesso jwt nao informado'});
+        }
+
         if(req.method == 'POST'){
             const {email, senha} = req.body;
             
@@ -13,7 +19,14 @@ const login = async(req: NextApiRequest, res: NextApiResponse<respostaPadraoMsg>
 
             if(usuarioLogar && usuarioLogar.length > 0){
                 const usuarioLogado = usuarioLogar[0];
-                return res.status(200).json({msg: `Usuario ${usuarioLogado.nome} logado com sucesso`});
+                
+                const token = jwt.sign({_id: usuarioLogado._id}, KEY_JWT);
+
+                return res.status(200).json({
+                    nome: usuarioLogado.nome,
+                    email: usuarioLogado.email,
+                    token
+                });
             }
             return res.status(401).json({msg: 'Usuario ou senha informados não é valido...'});
         }
