@@ -16,7 +16,7 @@ const BucketAvatar = Cosmic.bucket({
 });
 
 const BucketPostagem = Cosmic.bucket({
-    slug: PUBLICACOES,
+    slug: PUBLICACOES ,
     write_key: KEYPUBLICACOES
 });
 
@@ -32,7 +32,7 @@ const uploadImagem = async(req : any) => {
         }
 
         if(req?.url && req?.url?.includes('publicacoes')){
-            return await BucketPostagem.addmedia({media: objetoImagem});
+            return await BucketPostagem.addMedia({media: objetoImagem});
         }else{
             return await BucketAvatar.addMedia({media: objetoImagem});
         }
