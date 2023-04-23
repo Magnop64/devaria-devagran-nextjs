@@ -3,8 +3,10 @@ import { modeloUsuario } from '@/models/modeloUsuario';
 import { modeloPublicacao } from '@/models/modeloPublicacao';
 import { validar_jwt } from '@/middlewares/validar_jwt';
 import conectar_bd from '@/middlewares/conectar-bd';
+import type { respostaPadraoMsg } from '@/types/respostaPadraoMsg';
+import type { respostaFeed } from '@/types/r4espostaFeed';
 
-const feedUsuario = async(req: NextApiRequest, res: NextApiResponse) => {
+const feedUsuario = async(req: NextApiRequest, res: NextApiResponse < respostaPadraoMsg | any>) => {
 
     try{
         if(req.method === 'GET'){

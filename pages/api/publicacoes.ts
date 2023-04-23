@@ -45,8 +45,6 @@ const handler = nc()
 
             await modeloPublicacao.create(publicacao);
 
-            console.log('publicação - ', publicacao)
-
             return res.status(200).json({msg:'publicação salva com sucesso...'});
         }catch(e){
             console.log(e);
