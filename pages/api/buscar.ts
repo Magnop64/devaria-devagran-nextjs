@@ -6,17 +6,27 @@ import { modeloUsuario } from '@/models/modeloUsuario';
 const buscar = async (req: NextApiRequest, res: NextApiResponse<any>) =>{
     try{
         if(req.method === 'GET'){
-            const {busca} = req.query;
-            if(!busca || busca.length < 2){
-                return res.status(400).json({erro: 'parametros insuficientes para busca...'});
+            if(req?.query?.id){
+                const usuarioEncontrado = await modeloUsuario.findById(req?.query?.id);
+                if(!usuarioEncontrado){
+                    return res.status(400).json({erro:'Usuario nao encontrado..'});
+                }
+                usuarioEncontrado.senha = null;
+                return res.status(200).json(usuarioEncontrado);
+            }else{
+                const {busca} = req.query;
+                if(!busca || busca.length < 2){
+                    return res.status(400).json({erro: 'parametros insuficientes para busca...'});
+                }
+                const usuariosEncontrados = await modeloUsuario.find({
+                    nome : {$regex : busca, $options : 'i'}
+                });
+                if(usuariosEncontrados && usuariosEncontrados[0]){
+                return res.status(200).json(usuariosEncontrados);
+                }
+                return res.status(401).json({erro: 'nenhum usuario encontrado.'});
             }
-            const usuariosEncontrados = await modeloUsuario.find({
-                nome : {$regex : busca, $options : 'i'}
-            });
-            if(usuariosEncontrados && usuariosEncontrados[0]){
-               return res.status(200).json(usuariosEncontrados);
-            }
-            return res.status(401).json({erro: 'nenhum usuario encontrado.'});
+
         }
         return res.status(405).json({erro: 'metodo informado nao e valido...'});
 
