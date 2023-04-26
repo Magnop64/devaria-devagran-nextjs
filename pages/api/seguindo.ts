@@ -22,7 +22,7 @@ const seguindoEndPoint = async (req: NextApiRequest, res: NextApiResponse<respos
             const usuarioJaSeguido = await modeloSeguindo.find({usuarioId : usuarioLogado._id, usuarioSeguido : usuarioASeguir._id});
 
             if(usuarioJaSeguido && usuarioJaSeguido.length > 0){
-                usuarioJaSeguido.forEach(async(e : any) => await modeloUsuario.findByIdAndDelete({_id : e._id}));
+                usuarioJaSeguido.map(async(e) => modeloSeguindo.findByIdAndDelete({_id : e._id}));
 
                 usuarioLogado.seguindo--;
                 await modeloUsuario.findByIdAndUpdate({_id : usuarioLogado._id}, usuarioLogado);
