@@ -6,6 +6,7 @@ import { validar_jwt } from '@/middlewares/validar_jwt';
 import conectar_bd from '@/middlewares/conectar-bd';
 import { modeloPublicacao } from '@/models/modeloPublicacao';
 import { modeloUsuario } from '@/models/modeloUsuario';
+import { Cors } from '@/middlewares/Cors,';
 
 const handler = nc()
     .use(upload.single('file'))
@@ -42,8 +43,11 @@ const handler = nc()
                 imagem : img.media.url,
                 data : new Date()
             }
-
+            
             await modeloPublicacao.create(publicacao);
+
+            usuario.publicacao++;
+            await modeloUsuario.findByIdAndUpdate({_id : usuario._id}, usuario);
 
             return res.status(200).json({msg:'publicação salva com sucesso...'});
         }catch(e){
@@ -58,4 +62,4 @@ const handler = nc()
         }
     }
 
-    export default validar_jwt(conectar_bd(handler));
+    export default Cors(validar_jwt(conectar_bd(handler)));

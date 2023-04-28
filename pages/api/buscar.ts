@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse} from 'next';
 import conectar_bd from '@/middlewares/conectar-bd';
 import { validar_jwt } from '@/middlewares/validar_jwt';
 import { modeloUsuario } from '@/models/modeloUsuario';
+import { Cors } from '@/middlewares/Cors,';
 
 const buscar = async (req: NextApiRequest, res: NextApiResponse<any>) =>{
     try{
@@ -36,4 +37,4 @@ const buscar = async (req: NextApiRequest, res: NextApiResponse<any>) =>{
     }
 }
 
-export default validar_jwt(conectar_bd(buscar));
+export default Cors(validar_jwt(conectar_bd(buscar)));

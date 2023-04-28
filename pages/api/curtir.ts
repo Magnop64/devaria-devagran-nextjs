@@ -4,6 +4,7 @@ import conectar_bd from '@/middlewares/conectar-bd';
 import type { respostaPadraoMsg } from '@/types/respostaPadraoMsg';
 import { modeloPublicacao } from '@/models/modeloPublicacao';
 import { modeloUsuario } from '@/models/modeloUsuario';
+import { Cors } from '@/middlewares/Cors,';
 
 const curtirEndPoint = async (req: NextApiRequest, res: NextApiResponse) => {
     try{
@@ -36,4 +37,4 @@ const curtirEndPoint = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 }
 
-export default validar_jwt(conectar_bd(curtirEndPoint));
+export default Cors(validar_jwt(conectar_bd(curtirEndPoint)));

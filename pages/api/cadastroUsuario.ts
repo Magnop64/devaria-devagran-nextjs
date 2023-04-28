@@ -6,6 +6,7 @@ import { modeloUsuario } from '@/models/modeloUsuario';
 import md5 from 'md5';
 import nc from 'next-connect';
 import { upload, uploadImagem } from '@/services/uploadImagem';
+import { Cors } from '@/middlewares/Cors,';
 
 const handler = nc()
     .use(upload.single('file'))
@@ -55,4 +56,4 @@ export const config = {
     }
 }
 
-export default conectar_bd(handler);
+export default Cors(conectar_bd(handler));

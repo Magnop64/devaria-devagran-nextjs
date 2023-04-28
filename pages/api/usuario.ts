@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse} from 'next';
 import { validar_jwt } from '@/middlewares/validar_jwt';
 import { modeloUsuario } from '@/models/modeloUsuario';
 import conectar_bd from '@/middlewares/conectar-bd';
+import { Cors } from '@/middlewares/Cors,';
 
 
 const usuario = async(req: NextApiRequest, res: NextApiResponse)=>{
@@ -21,4 +22,4 @@ const usuario = async(req: NextApiRequest, res: NextApiResponse)=>{
     }
 }
 
-export default validar_jwt(conectar_bd(usuario));
+export default Cors(validar_jwt(conectar_bd(usuario)));

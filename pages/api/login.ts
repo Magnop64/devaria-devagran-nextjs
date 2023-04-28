@@ -4,6 +4,7 @@ import type { respostaPadraoMsg } from '@/types/respostaPadraoMsg';
 import { modeloUsuario } from '@/models/modeloUsuario';
 import md5 from 'md5';
 import jwt from 'jsonwebtoken';
+import { Cors } from '@/middlewares/Cors,';
 
 const login = async(req: NextApiRequest, res: NextApiResponse<respostaPadraoMsg | any>) => {
     try{
@@ -37,4 +38,4 @@ const login = async(req: NextApiRequest, res: NextApiResponse<respostaPadraoMsg 
     }
 }
 
-export default conectar_bd(login);
+export default Cors(conectar_bd(login));
